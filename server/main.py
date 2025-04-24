@@ -1,25 +1,19 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
 
+# Initialize Flask app
 app = Flask(__name__)
 cors = CORS(app, origins="*")
 
-@app.route('/api/recommendations', methods=['POST'])
-def recommendations():
-    data = request.json
-    selected_tags = data.get('selectedTags', [])
-    paragraph = data.get('paragraph', '')
+# Load environment variables
+load_dotenv()
 
-    # For now, just return the received data
-    return jsonify({
-        "message": "Data received successfully",
-        "selectedTags": selected_tags,
-        "paragraph": paragraph
-    })
-
-@app.route('/api/test', methods=['GET'])
-def test():
-    return jsonify({"message": "Server is running!"})
+# Register blueprints
+from routes import recommendations_bp, test_bp
+app.register_blueprint(recommendations_bp, url_prefix='/api/recommendations')
+app.register_blueprint(test_bp, url_prefix='/api/test')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
