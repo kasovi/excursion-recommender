@@ -5,15 +5,16 @@ import os
 
 # Initialize Flask app
 app = Flask(__name__)
-cors = CORS(app, origins="*")
+
+# Enable CORS for all routes and allow requests from the frontend
+CORS(app, origins=["http://localhost:5173"], methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
 
 # Load environment variables
 load_dotenv()
 
 # Register blueprints
-from routes import recommendations_bp, test_bp
+from routes.recommendations import recommendations_bp
 app.register_blueprint(recommendations_bp, url_prefix='/api/recommendations')
-app.register_blueprint(test_bp, url_prefix='/api/test')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8080, host='localhost')

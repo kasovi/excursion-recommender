@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 
 function MainPage() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [paragraph, setParagraph] = useState('');
-  const [responseMessage, setResponseMessage] = useState(null);
+  const [city, setCity] = useState('');  // New state for city
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   const tags = ['Adventure', 'Relaxation', 'Cultural', 'Nature'];
 
@@ -19,14 +21,26 @@ function MainPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8080/api/recommendations', {
+      // Check if the city is entered
+      if (!city) {
+        alert('Please enter a city.');
+        return;
+      }
+
+      console.log('Submitting data:', { selectedTags, paragraph, city });
+
+      const response = await axios.post('http://localhost:8080/api/recommendations/', {
         selectedTags,
         paragraph,
+        city,  // Include city in the payload
       });
-      setResponseMessage(response.data.queryPrompt); // Display the query prompt from the backend
+
+      console.log("Response received:", response.data);
+      // Pass the full response data to the results page
+      navigate('/results', { state: { responseData: response.data } });
     } catch (error) {
       console.error('Error submitting data:', error);
-      setResponseMessage('An error occurred while processing your request.');
+      alert('An error occurred while processing your request.');
     } finally {
       setIsLoading(false);
     }
@@ -60,16 +74,20 @@ function MainPage() {
             placeholder="Describe your ideal excursion..."
           />
         </div>
+        <div>
+          <h2>Enter a City:</h2>
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Enter city name (e.g., Los Angeles)"
+            required
+          />
+        </div>
         <button type="submit" disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
-      {responseMessage && (
-        <div>
-          <h2>Response:</h2>
-          <p>{responseMessage}</p>
-        </div>
-      )}
     </div>
   );
 }
