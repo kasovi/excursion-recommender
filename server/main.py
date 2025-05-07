@@ -14,7 +14,10 @@ load_dotenv()
 
 # Register blueprints
 from routes.recommendations import recommendations_bp
+from routes.auth import auth_bp
+
 app.register_blueprint(recommendations_bp, url_prefix='/api/recommendations')
+app.register_blueprint(auth_bp, url_prefix='/api/auth')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, host='localhost')

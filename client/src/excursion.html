@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Excursion Recommender</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .screen {
+      display: none;
+      background: white;
+      padding: 40px;
+      width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .screen.active {
+      display: block;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .btn, input[type="submit"] {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .input-field, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+    }
+    .checkbox-group, .location-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .box {
+      height: 60px;
+      background: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Landing Screen -->
+<div class="screen active" id="screen-landing">
+  <h2>Welcome to<br>Excursion Recommender</h2>
+  <button class="btn" onclick="showScreen('screen-login')">Create Account</button>
+  <button class="btn" onclick="showScreen('screen-login')">Login</button>
+</div>
+
+<!-- Login Screen -->
+<div class="screen" id="screen-login">
+  <h2>Login</h2>
+  <input type="email" class="input-field" placeholder="Email">
+  <input type="password" class="input-field" placeholder="Password">
+  <input type="submit" class="btn" value="Submit" onclick="showScreen('screen-dashboard')">
+</div>
+
+<!-- Dashboard -->
+<div class="screen" id="screen-dashboard">
+  <h2>Explore</h2>
+  <div class="grid">
+    <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
+  </div>
+  <h2>Recommendation History</h2>
+  <div class="grid">
+    <div class="box"></div><div class="box"></div><div class="box"></div>
+  </div>
+  <button class="btn" onclick="showScreen('screen-form')">Generate Recommendation</button>
+</div>
+
+<!-- Request Form -->
+<div class="screen" id="screen-form">
+  <button class="btn" onclick="showScreen('screen-dashboard')">← Back</button>
+  <h2>Request Form</h2>
+  <p>What are you looking for?</p>
+  <div class="checkbox-group">
+    <label><input type="checkbox"> Hikes</label>
+    <label><input type="checkbox"> Outdoor Activities</label>
+    <label><input type="checkbox"> Indoor Activities</label>
+    <label><input type="checkbox"> Amusement Parks</label>
+    <label><input type="checkbox"> Restaurants</label>
+    <label><input type="checkbox"> Other</label>
+  </div>
+  <p>Location</p>
+  <div class="location-group">
+    <label><input type="radio" name="distance"> within 5 miles</label>
+    <label><input type="radio" name="distance"> within 10 miles</label>
+    <label><input type="radio" name="distance"> within 25 miles</label>
+    <label><input type="radio" name="distance"> within 50 miles</label>
+    <label><input type="radio" name="distance"> within 100 miles</label>
+    <label><input type="radio" name="distance"> Custom</label>
+  </div>
+  <input type="text" class="input-field" placeholder="City or Zip">
+  <textarea class="input-field" placeholder="Any other requests?"></textarea>
+  <input type="submit" class="btn" value="Submit Request" onclick="showScreen('screen-dashboard')">
+</div>
+
+<script>
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
