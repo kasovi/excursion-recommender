@@ -19,7 +19,7 @@ function PageWrapper({ children }) {
       exit="exit"
       variants={pageVariants}
       transition={pageTransition}
-      style={{ height: '100%' }} // Ensure the wrapper takes full height
+      style={{ height: '100%' }} 
     >
       {children}
     </motion.div>

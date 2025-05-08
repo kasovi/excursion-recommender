@@ -12,13 +12,14 @@ import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import LibraryPage from './LibraryPage';
 import Header from './Header';
+import ItineraryPage from './ItineraryPage'; 
+import ViewItineraryPage from './ViewItineraryPage'; 
 
 function AppContent() {
   const location = useLocation();
 
   // Define routes where the header should not appear
   const noHeaderRoutes = ['/', '/login', '/register', '/dashboard'];
-
   return (
     <AnimatePresence mode="wait">
       {!noHeaderRoutes.includes(location.pathname) && (
@@ -41,6 +42,8 @@ function AppContent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/library" element={<LibraryPage />} />
+        <Route path="/itinerary" element={<ItineraryPage />} /> 
+        <Route path="/view-itineraries" element={<ViewItineraryPage />} /> 
       </Routes>
     </AnimatePresence>
   );

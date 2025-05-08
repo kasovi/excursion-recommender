@@ -11,7 +11,32 @@ function MainPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const tags = ['Adventure', 'Relaxation', 'Cultural', 'Nature', 'Romantic', 'Family', 'Luxury', 'Budget', 'Food', 'Historic'];
+  const tags = [
+    'Adventure',
+    'Relaxation',
+    'Cultural',
+    'Nature',
+    'Romantic',
+    'Family',
+    'Luxury',
+    'Budget',
+    'Food',
+    'Historic',
+    'Shopping',
+    'Nightlife',
+    'Beaches',
+    'Wildlife',
+    'Art',
+    'Music',
+    'Sports',
+    'Wellness',
+    'Festivals',
+    'Photography',
+    'Spiritual',
+    'Educational',
+    'Extreme Sports',
+    'Volunteering',
+  ];
 
   const handleTagChange = (tag) => {
     setSelectedTags((prev) =>
@@ -93,7 +118,7 @@ function MainPage() {
               </div>
             </div>
             <div className={styles.section}>
-              <h2>Enter a Paragraph:</h2>
+              <h2>Any other requests?:</h2>
               <textarea
                 value={paragraph}
                 onChange={(e) => setParagraph(e.target.value)}
@@ -125,16 +150,10 @@ function MainPage() {
               disabled={isLoading}
               className={styles.submitButton}
             >
-              {isLoading ? 'Submitting...' : 'Submit'}
+              {isLoading ? 'Generating...' : 'Generate'}
             </button>
           </form>
         </div>
-        <button
-          className={styles.homeButton}
-          onClick={() => navigate('/dashboard')}
-        >
-          Home
-        </button>
       </div>
     </PageWrapper>
   );

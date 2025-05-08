@@ -22,3 +22,9 @@
   font-size: 16px;
   cursor: pointer;
 }
+
+.logo {
+  width: 600px; /* Adjust logo size */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Add spacing below the logo */
+}

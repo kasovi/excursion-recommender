@@ -27,9 +27,21 @@ CREATE TABLE IF NOT EXISTS recommendations (
 )
 ''')
 
+# Create the itineraries table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS itineraries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    title TEXT NOT NULL,
+    locations TEXT NOT NULL, -- Store selected locations as JSON
+    FOREIGN KEY (username) REFERENCES users (username)
+)
+''')
+
 # Commit changes and close the connection
 conn.commit()
 conn.close()
 
 print("Database and users table created successfully.")
 print("Recommendations table created successfully.")
+print("Itineraries table created successfully.")

@@ -24,3 +24,9 @@
 .button:hover {
   background-color: #535bf2;
 }
+
+.container p {
+  font-size: 1.5em; 
+  font-style: italic;
+  margin-top: 20px; 
+}

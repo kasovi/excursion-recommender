@@ -23,6 +23,9 @@ function ResultsPage() {
   // State to track which item is expanded
   const [expandedIndex, setExpandedIndex] = useState(null);
 
+  // State to track if the recommendation is saved
+  const [isSaved, setIsSaved] = useState(false);
+
   const handleToggle = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
@@ -36,6 +39,7 @@ function ResultsPage() {
         rawResults: responseData.rawResults,
       });
       alert(response.data.message);
+      setIsSaved(true); // Mark as saved
     } catch (error) {
       alert('Failed to save recommendation.');
     }
@@ -45,12 +49,6 @@ function ResultsPage() {
     <PageWrapper>
       <div className={styles.container}>
         <h1>{responseData.title.replace(/['"]+/g, '')}</h1> {/* Remove quotation marks from the title */}
-        <button
-          className={styles.backButton}
-          onClick={() => navigate('/dashboard')}
-        >
-          Back to Dashboard
-        </button>
         <div>
           <h2>Top Results:</h2>
           <ul className={styles.list}>
@@ -85,8 +83,12 @@ function ResultsPage() {
           </ul>
         </div>
         <div className={styles.buttonContainer}>
-          <button onClick={handleSave} className={styles.button}>
-            Save to Library
+          <button
+            onClick={handleSave}
+            className={styles.button}
+            disabled={isSaved} // Disable the button if already saved
+          >
+            {isSaved ? 'Saved' : 'Save to Library'}
           </button>
           <button onClick={() => navigate('/dashboard')} className={styles.button}>
             Back to Dashboard

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.css';
-import PageWrapper from './PageWrapper'; // Import the PageWrapper
+import PageWrapper from './PageWrapper'; 
+import logo from './assets/logowhite.svg'; 
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -8,7 +9,8 @@ function LandingPage() {
   return (
     <PageWrapper>
       <div className={styles.container}>
-        <h1>Welcome to Excursion Recommender</h1>
+        <img src={logo} alt="Excursion Recommender Logo" className={styles.logo} /> {/* Apply logo class */}
+        {/* <h1>Welcome to Excursion Recommender</h1> */}
         <p className={styles.subtitle}>Plan your perfect outing with ease!</p> {/* Apply subtitle class */}
         <div className={styles.buttonContainer}>
           <button className={styles.button} onClick={() => navigate('/login')}>

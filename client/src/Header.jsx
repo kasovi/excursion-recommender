@@ -41,7 +41,7 @@ function Header() {
         onClick={() => navigate('/dashboard')}
         style={{
           padding: '5px 10px',
-          backgroundColor: '#646cff',
+          backgroundColor: '#0095d2',
           color: 'white',
           border: 'none',
           borderRadius: '5px',
@@ -80,7 +80,7 @@ function Header() {
           height: '36px', // Consistent height
         }}
       >
-        Logout
+        Log out
       </button>
     </motion.header>
   );

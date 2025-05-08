@@ -4,6 +4,7 @@ from openai import OpenAI
 import os
 import requests
 import sqlite3
+import json
 
 # Create Blueprint and CORS
 recommendations_bp = Blueprint('recommendations', __name__)
@@ -106,7 +107,7 @@ def recommendations():
 
     # Generate a title using GPT
     title_prompt = (
-        f"Create a short, catchy title for an excursion recommendation based on the following:\n"
+        f"Create one short, catchy title for an excursion recommendation based on the following:\n"
         f"Tags: {', '.join(selected_tags)}\n"
         f"Paragraph: \"{paragraph}\"\n"
         f"City: {city}\n\n"
@@ -182,3 +183,99 @@ def get_saved_recommendations():
         conn.close()
 
     return jsonify(recommendations), 200
+
+# Delete a recommendation
+@recommendations_bp.route('/library/delete', methods=['DELETE'])
+def delete_recommendation():
+    data = request.json
+    username = data.get('username')
+    title = data.get('title')
+
+    if not username or not title:
+        return jsonify({"error": "Username and title are required"}), 400
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('DELETE FROM recommendations WHERE username = ? AND title = ?', (username, title))
+        conn.commit()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+    return jsonify({"message": "Recommendation deleted successfully"}), 200
+
+@recommendations_bp.route('/itineraries/save', methods=['POST'])
+def save_itinerary():
+    data = request.json
+    username = data.get('username')
+    title = data.get('title')
+    locations = data.get('locations')  # List of selected locations
+
+    if not username or not title or not locations:
+        return jsonify({"error": "All fields are required"}), 400
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('''
+            INSERT INTO itineraries (username, title, locations)
+            VALUES (?, ?, ?)
+        ''', (username, title, json.dumps(locations)))
+        conn.commit()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+    return jsonify({"message": "Itinerary saved successfully"}), 201
+
+
+@recommendations_bp.route('/itineraries', methods=['GET'])
+def get_itineraries():
+    username = request.args.get('username')
+
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('SELECT id, title, locations FROM itineraries WHERE username = ?', (username,))
+        rows = cursor.fetchall()
+        itineraries = [
+            {"id": row[0], "title": row[1], "locations": json.loads(row[2])} for row in rows
+        ]
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+    return jsonify(itineraries), 200
+
+# Delete an itinerary
+@recommendations_bp.route('/itineraries/delete', methods=['DELETE'])
+def delete_itinerary():
+    data = request.json
+    username = data.get('username')
+    title = data.get('title')
+
+    if not username or not title:
+        return jsonify({"error": "Username and title are required"}), 400
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('DELETE FROM itineraries WHERE username = ? AND title = ?', (username, title))
+        conn.commit()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+    return jsonify({"message": "Itinerary deleted successfully"}), 200

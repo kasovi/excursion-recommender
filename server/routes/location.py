@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import requests
 import os
+from dotenv import load_dotenv
 
 location_bp = Blueprint('location', __name__)
 
@@ -15,7 +16,7 @@ def reverse_geocode():
         return jsonify({"error": "Latitude and longitude are required"}), 400
 
     try:
-        url = f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={GOOGLE_PLACES_API_KEY}"
+        url = f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={GOOGLE_MAPS_API_KEY}"
         response = requests.get(url)
         response_data = response.json()
 
