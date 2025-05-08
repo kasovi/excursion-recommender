@@ -1,0 +1,125 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #242424; /* Dark background for the page */
+  color: #f5f5f5; /* Light text for dark mode */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 1.2em;
+  color: #dcdcdc; /* Slightly dimmed white for subtitle */
+}
+
+.formBox {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px; /* Reduced padding to remove extra space */
+  border-radius: 8px;
+  background-color: #2c2c2c; /* Slightly lighter gray for the form box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reduce space between sections */
+}
+
+.section {
+  margin-bottom: 10px; /* Reduce space between sections */
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tagLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #3a3a3a; /* Default background for tags */
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #f5f5f5; /* Default text color */
+}
+
+.tagLabel.selected {
+  background-color: #646cff; /* Blue background for selected tags */
+  color: white; /* White text for selected tags */
+}
+
+.textarea,
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #3a3a3a;
+  color: #f5f5f5;
+}
+
+.button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #535bf2;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #535bf2;
+}
+
+.homeButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.homeButton:hover {
+  background-color: #535bf2;
+}

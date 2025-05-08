@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styles from './MainPage.module.css';
+import PageWrapper from './PageWrapper'; // Import the PageWrapper
 
 function MainPage() {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -40,60 +42,101 @@ function MainPage() {
     }
   };
 
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          const response = await axios.get(`http://localhost:8080/api/location/reverse-geocode`, {
+            params: { latitude, longitude },
+          });
+
+          if (response.data.city) {
+            setCity(response.data.city);
+          } else {
+            alert('Unable to determine city from your location.');
+          }
+        } catch (error) {
+          alert('Failed to fetch location details.');
+        }
+      },
+      (error) => {
+        alert('Unable to retrieve your location.');
+      }
+    );
+  };
+
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Excursion Recommender</h1>
-      <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-        <div>
-          <h2>Select Tags:</h2>
-          {tags.map((tag) => (
-            <label key={tag} style={{ margin: '10px', display: 'inline-block' }}>
-              <input
-                type="checkbox"
-                value={tag}
-                checked={selectedTags.includes(tag)}
-                onChange={() => handleTagChange(tag)}
+    <PageWrapper>
+      <div className={styles.container}>
+        <div className={styles.formBox}>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.section}>
+              <h2>Select Tags:</h2>
+              <div className={styles.tags}>
+                {tags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className={`${styles.tagLabel} ${selectedTags.includes(tag) ? styles.selected : ''}`}
+                    onClick={() => handleTagChange(tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className={styles.section}>
+              <h2>Enter a Paragraph:</h2>
+              <textarea
+                value={paragraph}
+                onChange={(e) => setParagraph(e.target.value)}
+                rows="5"
+                placeholder="Describe your ideal excursion..."
+                className={styles.textarea}
               />
-              {tag}
-            </label>
-          ))}
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <h2>Enter a Paragraph:</h2>
-          <textarea
-            value={paragraph}
-            onChange={(e) => setParagraph(e.target.value)}
-            rows="5"
-            cols="40"
-            placeholder="Describe your ideal excursion..."
-            style={{ margin: '10px', padding: '10px', fontSize: '16px', width: '300px' }}
-          />
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <h2>Enter a City:</h2>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Enter city name (e.g., Los Angeles)"
-            required
-            style={{ margin: '10px', padding: '10px', fontSize: '16px', width: '300px' }}
-          />
+            </div>
+            <div className={styles.section}>
+              <h2>Enter a City:</h2>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Enter city name (e.g., Los Angeles)"
+                required
+                className={styles.input}
+              />
+              <button
+                type="button"
+                onClick={handleUseLocation}
+                className={styles.button}
+              >
+                Use My Location
+              </button>
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={styles.submitButton}
+            >
+              {isLoading ? 'Submitting...' : 'Submit'}
+            </button>
+          </form>
         </div>
         <button
-          type="submit"
-          disabled={isLoading}
-          style={{
-            margin: '10px',
-            padding: '10px 20px',
-            fontSize: '16px',
-            cursor: 'pointer',
-          }}
+          className={styles.homeButton}
+          onClick={() => navigate('/dashboard')}
         >
-          {isLoading ? 'Submitting...' : 'Submit'}
+          Home
         </button>
-      </form>
-    </div>
+      </div>
+    </PageWrapper>
   );
 }
 

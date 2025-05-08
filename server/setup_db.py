@@ -15,8 +15,21 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
 
+# Create the recommendations table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS recommendations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    title TEXT NOT NULL,
+    summary TEXT NOT NULL,
+    raw_results TEXT NOT NULL,
+    FOREIGN KEY (username) REFERENCES users (username)
+)
+''')
+
 # Commit changes and close the connection
 conn.commit()
 conn.close()
 
 print("Database and users table created successfully.")
+print("Recommendations table created successfully.")

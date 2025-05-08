@@ -1,0 +1,43 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.listItem {
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #3a3a3a; /* Darker gray for better contrast */
+  text-align: left;
+  color: #f5f5f5; /* Light text for better readability */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.listItem h2 {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+  color: #ffffff; /* Pure white for headings */
+}
+
+.listItem p {
+  margin: 0;
+  font-size: 1em;
+  color: #dcdcdc; /* Slightly dimmed white for paragraph text */
+}
+
+.listItem ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.listItem ul li {
+  font-size: 0.95em;
+  color: #c0c0c0; /* Softer gray for nested list items */
+}

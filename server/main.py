@@ -13,11 +13,13 @@ CORS(app, origins=["http://localhost:5173"], methods=["GET", "POST", "OPTIONS"],
 load_dotenv()
 
 # Register blueprints
+from routes.location import location_bp
 from routes.recommendations import recommendations_bp
 from routes.auth import auth_bp
 
 app.register_blueprint(recommendations_bp, url_prefix='/api/recommendations')
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
+app.register_blueprint(location_bp, url_prefix='/api/location')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, host='localhost')
