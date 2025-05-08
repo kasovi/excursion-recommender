@@ -171,10 +171,10 @@ def get_saved_recommendations():
     cursor = conn.cursor()
 
     try:
-        cursor.execute('SELECT summary, raw_results FROM recommendations WHERE username = ?', (username,))
+        cursor.execute('SELECT title, summary, raw_results FROM recommendations WHERE username = ?', (username,))
         rows = cursor.fetchall()
         recommendations = [
-            {"summary": row[0], "rawResults": eval(row[1])} for row in rows
+            {"title": row[0], "summary": row[1], "rawResults": eval(row[2])} for row in rows
         ]
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -70,6 +70,15 @@ function ResultsPage() {
                   className={`${styles.summary} ${expandedIndex === index ? styles.open : ''}`}
                 >
                   <p>{parsedSummaries[index] || 'No summary available for this location.'}</p>
+                  {/* Add Google Maps link */}
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(result.formatted_address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.googleMapsLink} // Apply the CSS class
+                  >
+                    View on Google Maps
+                  </a>
                 </div>
               </li>
             ))}

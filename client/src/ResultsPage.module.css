@@ -72,3 +72,14 @@
 .backButton:hover {
   background-color: #535bf2; /* Slightly darker on hover */
 }
+
+.googleMapsLink {
+  color: #87ceeb; /* Light blue color */
+  font-weight: bold; /* Make the link bold */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.googleMapsLink:hover {
+  color: #6495ed; /* Slightly darker blue on hover */
+}
