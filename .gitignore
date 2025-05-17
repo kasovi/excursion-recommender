@@ -1,2 +1,3 @@
 /server/venv4800
 server/.env
+/server/routes/__pycache__
