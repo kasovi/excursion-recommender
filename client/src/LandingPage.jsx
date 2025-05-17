@@ -9,9 +9,8 @@ function LandingPage() {
   return (
     <PageWrapper>
       <div className={styles.container}>
-        <img src={logo} alt="Excursion Recommender Logo" className={styles.logo} /> {/* Apply logo class */}
-        {/* <h1>Welcome to Excursion Recommender</h1> */}
-        <p className={styles.subtitle}>Plan your perfect outing with ease!</p> {/* Apply subtitle class */}
+        <img src={logo} alt="Excursion Recommender Logo" className={styles.logo} />
+        <p className={styles.subtitle}>Plan your perfect outing with ease!</p>
         <div className={styles.buttonContainer}>
           <button className={styles.button} onClick={() => navigate('/login')}>
             Login

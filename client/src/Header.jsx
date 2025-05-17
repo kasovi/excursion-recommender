@@ -1,25 +1,34 @@
 import { useUserContext } from './UserContext';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion'; // Import motion from framer-motion
+import { motion } from 'framer-motion'; // Import motion for animation
+import { useState } from 'react';
 
+// Animation variants for header appearance/disappearance
 const headerVariants = {
-  initial: { opacity: 0, y: -20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
+  initial: { opacity: 0, y: -20 }, // Start hidden and slightly above
+  animate: { opacity: 1, y: 0 },   // Animate to visible and in place
+  exit: { opacity: 0, y: -20 },    // Animate out by moving up and fading
 };
 
+// Animation transition settings
 const headerTransition = {
   duration: 0.3,
   ease: 'easeOut',
 };
 
 function Header() {
+  // Access user context and navigation
   const { user, setUser } = useUserContext();
   const navigate = useNavigate();
 
+  // State for button background colors (for hover effects)
+  const [homeBgColor, setHomeBgColor] = useState('#0095d2'); // Default blue
+  const [logoutBgColor, setLogoutBgColor] = useState('#ff4d4d'); // Default red
+
+  // Handle logout: clear user and redirect to landing page
   const handleLogout = () => {
-    setUser(null); // Clear the username from context
-    navigate('/'); // Redirect to the Landing Page
+    setUser(null); // Remove user from context
+    navigate('/'); // Go to landing page
   };
 
   return (
@@ -27,8 +36,8 @@ function Header() {
       style={{
         padding: '10px',
         display: 'flex',
-        justifyContent: 'space-between', // Space between Home, Username, and Logout
-        alignItems: 'center', // Ensures vertical alignment
+        justifyContent: 'space-between', // Space out Home, Username, Logout
+        alignItems: 'center', // Vertically center items
       }}
       variants={headerVariants}
       initial="initial"
@@ -36,30 +45,32 @@ function Header() {
       exit="exit"
       transition={headerTransition}
     >
-      {/* Home Button */}
+      {/* Home Button: navigates to dashboard, with hover color effect */}
       <button
         onClick={() => navigate('/dashboard')}
+        onMouseEnter={() => setHomeBgColor('#007bb5')} // Darker blue on hover
+        onMouseLeave={() => setHomeBgColor('#0095d2')} // Reset to default
         style={{
           padding: '5px 10px',
-          backgroundColor: '#0095d2',
+          backgroundColor: homeBgColor,
           color: 'white',
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
-          height: '36px', // Consistent height
+          height: '36px', 
         }}
       >
         Home
       </button>
 
-      {/* Centered Username */}
+      {/* Centered Username: only shown if user is logged in */}
       <div style={{ textAlign: 'center', flex: 1 }}>
         {user && (
           <p
             style={{
               margin: 0,
               lineHeight: '1.5',
-              fontSize: '1.5rem', // Increased font size
+              fontSize: '1.5rem', 
             }}
           >
             {user}
@@ -67,17 +78,19 @@ function Header() {
         )}
       </div>
 
-      {/* Logout Button */}
+      {/* Logout Button: logs out user, with hover color effect */}
       <button
         onClick={handleLogout}
+        onMouseEnter={() => setLogoutBgColor('#cc0000')} // Darker red on hover
+        onMouseLeave={() => setLogoutBgColor('#ff4d4d')} // Reset to default
         style={{
           padding: '5px 10px',
-          backgroundColor: '#ff4d4d', // Red for logout
+          backgroundColor: logoutBgColor,
           color: 'white',
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
-          height: '36px', // Consistent height
+          height: '36px',
         }}
       >
         Log out

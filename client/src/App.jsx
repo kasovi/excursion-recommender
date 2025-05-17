@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion'; // Import AnimatePresence
-import { motion } from 'framer-motion'; // Import motion
+import { AnimatePresence } from 'framer-motion'; // Import AnimatePresence for route transitions
+import { motion } from 'framer-motion'; // Import motion for animating components
 
 import LandingPage from './LandingPage';
 import DashboardPage from './DashboardPage';
@@ -18,10 +18,12 @@ import ViewItineraryPage from './ViewItineraryPage';
 function AppContent() {
   const location = useLocation();
 
-  // Define routes where the header should not appear
+  // List of routes where the header should NOT be shown
   const noHeaderRoutes = ['/', '/login', '/register', '/dashboard'];
+
   return (
     <AnimatePresence mode="wait">
+      {/* Conditionally render the animated header unless on a no-header route */}
       {!noHeaderRoutes.includes(location.pathname) && (
         <motion.div
           key="header"
@@ -33,6 +35,7 @@ function AppContent() {
           <Header />
         </motion.div>
       )}
+      {/* AnimatePresence enables page transitions for routes */}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
@@ -50,6 +53,7 @@ function AppContent() {
 }
 
 function App() {
+  // Wrap the app in a Router to enable routing throughout the app
   return (
     <Router>
       <AppContent />

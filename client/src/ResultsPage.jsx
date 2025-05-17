@@ -11,6 +11,7 @@ function ResultsPage() {
   const { user } = useUserContext(); // Get the logged-in user's username
   const { responseData } = location.state || {};
 
+  // Show message if no data is available
   if (!responseData) {
     return <p>No data available. Please go back and try again.</p>;
   }
@@ -23,13 +24,15 @@ function ResultsPage() {
   // State to track which item is expanded
   const [expandedIndex, setExpandedIndex] = useState(null);
 
-  // State to track if the recommendation is saved
+  // Track if the recommendation is saved to the user's library
   const [isSaved, setIsSaved] = useState(false);
 
+  // Expand/collapse result details
   const handleToggle = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
+  // Save recommendation to backend for the user
   const handleSave = async () => {
     try {
       const response = await axios.post('http://localhost:8080/api/recommendations/save', {
@@ -48,10 +51,12 @@ function ResultsPage() {
   return (
     <PageWrapper>
       <div className={styles.container}>
-        <h1>{responseData.title.replace(/['"]+/g, '')}</h1> {/* Remove quotation marks from the title */}
+        {/* Show the title, removing any quotes */}
+        <h1>{responseData.title.replace(/['"]+/g, '')}</h1>
         <div>
           <h2>Top Results:</h2>
           <ul className={styles.list}>
+            {/* List each result with expandable details */}
             {rawResults.map((result, index) => (
               <li key={index} className={styles.listItem}>
                 <div
@@ -68,12 +73,12 @@ function ResultsPage() {
                   className={`${styles.summary} ${expandedIndex === index ? styles.open : ''}`}
                 >
                   <p>{parsedSummaries[index] || 'No summary available for this location.'}</p>
-                  {/* Add Google Maps link */}
+                  {/* Google Maps link for the location */}
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(result.formatted_address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.googleMapsLink} // Apply the CSS class
+                    className={styles.googleMapsLink}
                   >
                     View on Google Maps
                   </a>
@@ -82,6 +87,7 @@ function ResultsPage() {
             ))}
           </ul>
         </div>
+        {/* Save and navigation buttons */}
         <div className={styles.buttonContainer}>
           <button
             onClick={handleSave}

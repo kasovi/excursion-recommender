@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './MainPage.module.css';
-import PageWrapper from './PageWrapper'; // Import the PageWrapper
+import PageWrapper from './PageWrapper'; // Page layout wrapper
 
 function MainPage() {
+  // State for selected tags, user paragraph, city input, and loading spinner
   const [selectedTags, setSelectedTags] = useState([]);
   const [paragraph, setParagraph] = useState('');
   const [city, setCity] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // List of tags user can select for excursion preferences
   const tags = [
     'Adventure',
     'Relaxation',
@@ -38,27 +40,39 @@ function MainPage() {
     'Volunteering',
   ];
 
+  // Toggle tag selection on click
   const handleTagChange = (tag) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
   };
 
+  // Submit form: send user input to backend and navigate to results page
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      // Require city input before submitting
       if (!city) {
         alert('Please enter a city.');
+        setIsLoading(false);
+        return;
+      }
+      // Require at least one tag or paragraph
+      if (selectedTags.length === 0 && paragraph.trim() === '') {
+        alert('Please select at least one tag or enter a description.');
+        setIsLoading(false);
         return;
       }
 
+      // Send POST request with user selections
       const response = await axios.post('http://localhost:8080/api/recommendations/', {
         selectedTags,
         paragraph,
         city,
       });
 
+      // Navigate to results page with response data
       navigate('/results', { state: { responseData: response.data } });
     } catch (error) {
       alert('An error occurred while processing your request.');
@@ -67,21 +81,25 @@ function MainPage() {
     }
   };
 
+  // Use browser geolocation to auto-fill city input
   const handleUseLocation = () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser.');
       return;
     }
 
+    // Get user's current position
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
 
         try {
+          // Reverse geocode coordinates to get city name
           const response = await axios.get(`http://localhost:8080/api/location/reverse-geocode`, {
             params: { latitude, longitude },
           });
 
+          // Set city if found, else show error
           if (response.data.city) {
             setCity(response.data.city);
           } else {
@@ -102,9 +120,11 @@ function MainPage() {
       <div className={styles.container}>
         <div className={styles.formBox}>
           <form onSubmit={handleSubmit} className={styles.form}>
+            {/* Tag selection section */}
             <div className={styles.section}>
               <h2>Select Tags:</h2>
               <div className={styles.tags}>
+                {/* Render tag buttons, highlight if selected */}
                 {tags.map((tag) => (
                   <button
                     key={tag}
@@ -117,8 +137,9 @@ function MainPage() {
                 ))}
               </div>
             </div>
+            {/* Freeform user input */}
             <div className={styles.section}>
-              <h2>Any other requests?:</h2>
+              <h2>Any other requests?</h2>
               <textarea
                 value={paragraph}
                 onChange={(e) => setParagraph(e.target.value)}
@@ -127,6 +148,7 @@ function MainPage() {
                 className={styles.textarea}
               />
             </div>
+            {/* City input and location button */}
             <div className={styles.section}>
               <h2>Enter a City:</h2>
               <input
@@ -137,6 +159,7 @@ function MainPage() {
                 required
                 className={styles.input}
               />
+              {/* Button to use geolocation */}
               <button
                 type="button"
                 onClick={handleUseLocation}
@@ -145,6 +168,7 @@ function MainPage() {
                 Use My Location
               </button>
             </div>
+            {/* Submit button */}
             <button
               type="submit"
               disabled={isLoading}

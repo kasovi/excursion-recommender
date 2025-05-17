@@ -3,6 +3,11 @@
   margin-top: 50px;
 }
 
+.container h1 {
+  font-size: 2.8em; /* Reduce the font size */
+  margin-bottom: 20px; /* Add some spacing below the title */
+}
+
 .list {
   list-style-type: none;
   padding: 0;

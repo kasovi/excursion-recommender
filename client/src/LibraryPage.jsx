@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 function LibraryPage() {
   const { user } = useUserContext(); // Get the logged-in user's username
-  const [recommendations, setRecommendations] = useState([]);
+  const [recommendations, setRecommendations] = useState([]); // Store user's saved recommendations
   const [expandedIndex, setExpandedIndex] = useState(null); // Track which recommendation is expanded
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch saved recommendations for the user from the backend
     const fetchRecommendations = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/recommendations/library', {
@@ -26,10 +27,12 @@ function LibraryPage() {
     fetchRecommendations();
   }, [user]);
 
+  // Toggle the expanded/collapsed state for a recommendation
   const handleToggle = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
+  // Delete a recommendation by title and update state
   const handleDeleteRecommendation = async (title) => {
     try {
       const response = await axios.delete('http://localhost:8080/api/recommendations/library/delete', {
@@ -45,7 +48,8 @@ function LibraryPage() {
   return (
     <PageWrapper>
       <div className={styles.container}>
-        <h1>Your Saved Recommendations</h1>
+        <h1>Saved Recommendations</h1>
+        {/* Show message if no recommendations are saved */}
         {recommendations.length === 0 ? (
           <p>No saved recommendations yet.</p>
         ) : (
@@ -59,16 +63,18 @@ function LibraryPage() {
 
               return (
                 <li key={index} className={styles.listItem}>
+                  {/* Clickable title to expand/collapse details */}
                   <div
                     onClick={() => handleToggle(index)}
                     style={{
                       cursor: 'pointer',
                       fontWeight: 'bold',
-                      color: '#646cff', // Highlighted color for clickable text
+                      color: '#7DC4E0', // Highlighted color for clickable text
                     }}
                   >
                     {rec.title}
                   </div>
+                  {/* Dropdown with location details and summaries */}
                   <div
                     className={`${styles.dropdown} ${expandedIndex === index ? styles.open : ''}`}
                   >
@@ -83,6 +89,7 @@ function LibraryPage() {
                         </li>
                       ))}
                     </ul>
+                    {/* Button to delete this recommendation */}
                     <button
                       onClick={() => handleDeleteRecommendation(rec.title)}
                       className={styles.deleteButton}
@@ -95,12 +102,14 @@ function LibraryPage() {
             })}
           </ul>
         )}
+        {/* Button to create a new itinerary */}
         <button
           onClick={() => navigate('/itinerary', { state: { recommendations } })}
           className={styles.button}
         >
           Create Itinerary
         </button>
+        {/* Button to view all itineraries */}
         <button
           onClick={() => navigate('/view-itineraries')}
           className={styles.button}

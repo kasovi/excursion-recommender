@@ -7,6 +7,7 @@
   font-size: 1.5em; /* Make the subtitle 2x larger */
   font-style: italic; /* Add italics */
   margin-bottom: 20px; /* Add spacing below the subtitle */
+  margin-top: 0px;
   color: #87ceeb;
 }
 

@@ -10,12 +10,15 @@
 }
 
 .listItem {
-  margin: 10px 0;
+  margin: 10px auto; /* Center the boxes horizontally */
   padding: 15px;
   border: 1px solid #444; /* Darker border for contrast */
   border-radius: 5px;
   background-color: #2c2c2c; /* Dark gray background for dark mode */
   color: #dcdcdc; /* Slightly dimmed white for text */
+  max-width: 800px; /* Limit the width of the boxes */
+  text-align: left; /* Align text to the left */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .summary {
