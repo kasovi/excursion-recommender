@@ -1,4 +1,4 @@
-# Release 1.0
+# Journey Genie: Release 1.0
 
 May 16, 2025
 
